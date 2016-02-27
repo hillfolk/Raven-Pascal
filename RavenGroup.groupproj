@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9EE92236-3C8F-4FDA-A601-1DC56775426B}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Raven.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="RavenTest\RavenTest.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="unittest\BaseRavenTest.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Raven">
+        <MSBuild Projects="Raven.dproj"/>
+    </Target>
+    <Target Name="Raven:Clean">
+        <MSBuild Projects="Raven.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Raven:Make">
+        <MSBuild Projects="Raven.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="RavenTest">
+        <MSBuild Projects="RavenTest\RavenTest.dproj"/>
+    </Target>
+    <Target Name="RavenTest:Clean">
+        <MSBuild Projects="RavenTest\RavenTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RavenTest:Make">
+        <MSBuild Projects="RavenTest\RavenTest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="BaseRavenTest">
+        <MSBuild Projects="unittest\BaseRavenTest.dproj"/>
+    </Target>
+    <Target Name="BaseRavenTest:Clean">
+        <MSBuild Projects="unittest\BaseRavenTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BaseRavenTest:Make">
+        <MSBuild Projects="unittest\BaseRavenTest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Raven;RavenTest;BaseRavenTest"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Raven:Clean;RavenTest:Clean;BaseRavenTest:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Raven:Make;RavenTest:Make;BaseRavenTest:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

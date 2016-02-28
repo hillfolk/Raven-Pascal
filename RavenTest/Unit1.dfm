@@ -33,7 +33,7 @@ object Form1: TForm1
     Left = 520
     Top = 320
     Width = 201
-    Height = 113
+    Height = 49
     Caption = 'Exceute'
     TabOrder = 1
     OnClick = Button1Click
@@ -213,6 +213,15 @@ object Form1: TForm1
     TabOrder = 5
     Text = 'Edit1'
   end
+  object Button3: TButton
+    Left = 520
+    Top = 384
+    Width = 201
+    Height = 49
+    Caption = 'Exception'
+    TabOrder = 6
+    OnClick = Button3Click
+  end
   object IdHTTP: TIdHTTP
     AllowCookies = True
     ProxyParams.BasicAuthentication = False
@@ -237,5 +246,20 @@ object Form1: TForm1
     OnTimer = Timer1Timer
     Left = 616
     Top = 255
+  end
+  object RavenClient1: TRavenClient
+    HOST = 'sentry.hillfolk.org'
+    PORT = 32779
+    SENTRY_VERSION = '7'
+    PROJECT_ID = 2
+    PUBLIC_KEY = '2287716fddd94b16b5cf19c49b05fb35'
+    SECRET_KEY = '5a52c3092b4742ce9532f32bfad285dc'
+    Left = 560
+    Top = 263
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnException = ApplicationEvents1Exception
+    Left = 672
+    Top = 215
   end
 end

@@ -3,7 +3,7 @@
         <ProjectGuid>{9EE92236-3C8F-4FDA-A601-1DC56775426B}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="Raven.dproj">
+        <Projects Include="RavenClient.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="RavenTest\RavenTest.dproj">
@@ -20,14 +20,14 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="Raven">
-        <MSBuild Projects="Raven.dproj"/>
+    <Target Name="RavenClient">
+        <MSBuild Projects="RavenClient.dproj"/>
     </Target>
-    <Target Name="Raven:Clean">
-        <MSBuild Projects="Raven.dproj" Targets="Clean"/>
+    <Target Name="RavenClient:Clean">
+        <MSBuild Projects="RavenClient.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="Raven:Make">
-        <MSBuild Projects="Raven.dproj" Targets="Make"/>
+    <Target Name="RavenClient:Make">
+        <MSBuild Projects="RavenClient.dproj" Targets="Make"/>
     </Target>
     <Target Name="RavenTest">
         <MSBuild Projects="RavenTest\RavenTest.dproj"/>
@@ -48,13 +48,13 @@
         <MSBuild Projects="unittest\BaseRavenTest.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Raven;RavenTest;BaseRavenTest"/>
+        <CallTarget Targets="RavenClient;RavenTest;BaseRavenTest"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Raven:Clean;RavenTest:Clean;BaseRavenTest:Clean"/>
+        <CallTarget Targets="RavenClient:Clean;RavenTest:Clean;BaseRavenTest:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Raven:Make;RavenTest:Make;BaseRavenTest:Make"/>
+        <CallTarget Targets="RavenClient:Make;RavenTest:Make;BaseRavenTest:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,System.DateUtils,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, IdBaseComponent,
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP,uRavenClient, Vcl.ExtCtrls,
-  IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL,IdHMACSHA1,IdHashMessageDigest;
+  IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL,IdHMACSHA1,IdHashMessageDigest,
+  Vcl.AppEvnts;
   const
   hmPOST = 0;
   hmGET = 1;
@@ -40,9 +41,14 @@ type
     edtModule: TEdit;
     Button2: TButton;
     Edit1: TEdit;
+    Button3: TButton;
+    RavenClient1: TRavenClient;
+    ApplicationEvents1: TApplicationEvents;
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
   private
     { Private declarations }
     function Post(AURL:string;data:TStringStream):string;
@@ -58,19 +64,24 @@ implementation
 
 {$R *.dfm}
 
-uses uHMAC;
 const
   UnixStartDate: TDateTime = 25569.0; // 01/01/1970
 
-//function DateTimeToUnix(dtDate: TDateTime): Longint;
-//begin
-//  Result := Round((dtDate - UnixStartDate) * 86400);
-//end;
-//
-//function UnixToDateTime(USec: Longint): TDateTime;
-//begin
-//  Result := (Usec / 86400) + UnixStartDate;
-//end;
+
+
+procedure TForm1.ApplicationEvents1Exception(Sender: TObject; E: Exception);
+var
+result_msg:string;
+begin
+//RavenClient1.setHOST('sentry.hillfolk.org');
+//RavenClient1.setPORT(32779);
+//RavenClient1.setPUBLIC_KEY('2287716fddd94b16b5cf19c49b05fb35');
+//RavenClient1.setSECRET_KEY('5a52c3092b4742ce9532f32bfad285dc');
+//RavenClient1.setPROJECT_ID(2);
+//RavenClient1.setSENTRY_VERSION('7');
+result_msg := RavenClient1.sendMessage(Exception.ClassName);
+LogBox.Lines.Add(E.ToString);
+end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
@@ -161,6 +172,24 @@ begin
 
    edtEvent_Id.Text := Result;
   end;
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+var
+result_message:string;
+begin
+//'http://2287716fddd94b16b5cf19c49b05fb35:5a52c3092b4742ce9532f32bfad285dc@sentry.hillfolk.org:32779/api/2/store/';
+//RavenClient1.setHOST('sentry.hillfolk.org');
+//RavenClient1.setPORT(32779);
+//RavenClient1.setPUBLIC_KEY('2287716fddd94b16b5cf19c49b05fb35');
+//RavenClient1.setSECRET_KEY('5a52c3092b4742ce9532f32bfad285dc');
+//RavenClient1.setPROJECT_ID(2);
+//RavenClient1.setSENTRY_VERSION('7');
+//result_message := RavenClient1.sendMessage(edtMessage.Text);
+
+raise Exception.Create('Error Message');
+
+
 end;
 
 function TForm1.Get(AURL:string): string;

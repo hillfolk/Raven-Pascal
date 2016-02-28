@@ -17,8 +17,6 @@ TRavenConnection = class(TComponent)
   FIndyClient:TIdHTTP;
   private
   sentry_version:string;
-  sentry_client:string;
-  sentry_timestamp:LongInt;
   FDsn:string;
   FPublicKey:String;
   FSecretKey:String;
@@ -37,7 +35,7 @@ TRavenConnection = class(TComponent)
   property PublicKey: string read FPublicKey write setPublicKey;
   property SecretKey: string read FSecretKey write setSecretKey;
   property ProjectID: string read FProjecID write setProjectId;
-  procedure send(_event:BaseEvent);
+  function send(_event:BaseEvent):string;
   function test():string;
   end;
 
@@ -49,6 +47,7 @@ constructor TRavenConnection.Create(AOwner: TComponent);
 begin
   inherited;
   FIndyClient := TIdHTTP.Create(self);
+
   FIndyClient.Request.CustomHeaders.Values[USER_AGENT] := SENTRY_CLIENT;
   FIndyClient.Request.CustomHeaders.Values['Content-Encoding'] := 'application/json';
   FIndyClient.Request.CustomHeaders.Values['Content-Type'] := 'application/octet-stream';
@@ -62,13 +61,19 @@ begin
   inherited;
 end;
 
-
-procedure TRavenConnection.send(_event: BaseEvent);
+function TRavenConnection.send(_event: BaseEvent):string;
+var
+send_stream:TStringStream;
 begin
 setHeader;
 try
-FIndyClient.Post(FDsn,_event.ToString);
+send_stream := TStringStream.Create(_event.ToString);
+Result := FIndyClient.Post(FDsn,send_stream);
+
+
 except on E: Exception do
+
+
 end;
 
 
@@ -76,7 +81,7 @@ end;
 
 procedure TRavenConnection.setDsn(_dsn:string);
 begin
-FDsn := _dsn;
+self.FDsn := _dsn;
 end;
 
 procedure TRavenConnection.setHeader;
@@ -99,7 +104,7 @@ end;
 
 procedure TRavenConnection.setPublicKey(_public_key: string);
 begin
-  self.PublicKey :=_public_key;
+  self.FPublicKey :=_public_key;
 end;
 
 procedure TRavenConnection.setSecretKey(_secret_key: string);

@@ -13,7 +13,7 @@ type
   ELevel = (FATAL, ERROR, WARNING, INFO, DEBUG);
 
 type
-  BaseEvent = class(TObject)
+  BaseEvent = class(Exception)
     event_id: string;
     event_message: string;
     event_timestamp: string;
@@ -72,12 +72,13 @@ end;
 constructor BaseEvent.Create(time: TDateTime);
 var
   Guid: TGUID;
+  ISO_8601:string;
 begin
   if CreateGuid(Guid) = S_OK then
   begin
     self.event_id := GUID4ToString(Guid);
   end;
-  self.event_timestamp := DateToISO8601(time);
+  Self.event_timestamp :=   formatdatetime('yyyy/mm/dd',time)+'T'+formatdatetime('hh:nn:ss',time) ;
 end;
 
 
@@ -118,7 +119,7 @@ end;
 
 procedure BaseEvent.setLogger(_logger: string);
 begin
-
+      Self.event_logger := _logger;
 end;
 
 procedure BaseEvent.setMessage(_message: string);

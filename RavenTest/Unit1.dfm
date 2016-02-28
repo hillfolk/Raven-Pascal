@@ -248,12 +248,13 @@ object Form1: TForm1
     Top = 255
   end
   object RavenClient1: TRavenClient
-    HOST = 'sentry.hillfolk.org'
-    PORT = 32779
+    PROTOCOL = 'http'
+    HOST = 'app.getsentry.com'
+    PORT = 80
     SENTRY_VERSION = '7'
-    PROJECT_ID = 2
-    PUBLIC_KEY = '2287716fddd94b16b5cf19c49b05fb35'
-    SECRET_KEY = '5a52c3092b4742ce9532f32bfad285dc'
+    PROJECT_ID = 67942
+    PUBLIC_KEY = 'f273091f96ef44bd9e5366f0fa935e28'
+    SECRET_KEY = '236c3cab7336475c895abaa9b26af612'
     Left = 560
     Top = 263
   end

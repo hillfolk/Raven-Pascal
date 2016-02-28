@@ -66,17 +66,8 @@ var
 send_stream:TStringStream;
 begin
 setHeader;
-try
 send_stream := TStringStream.Create(_event.ToString);
 Result := FIndyClient.Post(FDsn,send_stream);
-
-
-except on E: Exception do
-
-
-end;
-
-
 end;
 
 procedure TRavenConnection.setDsn(_dsn:string);
@@ -94,7 +85,7 @@ sentry_header := sentry_header+'sentry_client='+SENTRY_CLIENT+',';
 sentry_header := sentry_header+'sentry_timestamp=' +IntToStr(DateTimeToUnix(Now))+',';
 sentry_header := sentry_header+'sentry_key='+FPublicKey+ ',';
 sentry_header := sentry_header+'sentry_secret='+FSecretKey+ '';
- FIndyClient.Request.CustomHeaders.Values[SENTRY_AUTH] := sentry_header;
+FIndyClient.Request.CustomHeaders.Values[SENTRY_AUTH] := sentry_header;
 end;
 
 procedure TRavenConnection.setProjectId(_project_id: string);

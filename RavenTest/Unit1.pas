@@ -73,14 +73,8 @@ procedure TForm1.ApplicationEvents1Exception(Sender: TObject; E: Exception);
 var
 result_msg:string;
 begin
-//RavenClient1.setHOST('sentry.hillfolk.org');
-//RavenClient1.setPORT(32779);
-//RavenClient1.setPUBLIC_KEY('2287716fddd94b16b5cf19c49b05fb35');
-//RavenClient1.setSECRET_KEY('5a52c3092b4742ce9532f32bfad285dc');
-//RavenClient1.setPROJECT_ID(2);
-//RavenClient1.setSENTRY_VERSION('7');
-result_msg := RavenClient1.sendMessage(Exception.ClassName);
-LogBox.Lines.Add(E.ToString);
+result_msg := RavenClient1.sendException(E);
+LogBox.Lines.Add(E.Message);
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -106,10 +100,10 @@ begin
             'Content-Encoding': self.get_content_encoding(),
             'Content-Type': 'application/octet-stream',
 
-
+       https://f273091f96ef44bd9e5366f0fa935e28:236c3cab7336475c895abaa9b26af612@app.getsentry.com/67942
 }
-public_key := '2287716fddd94b16b5cf19c49b05fb35';
-secret_key := '5a52c3092b4742ce9532f32bfad285dc';
+public_key := 'f273091f96ef44bd9e5366f0fa935e28';
+secret_key := '236c3cab7336475c895abaa9b26af612';
 api_secret := 'd20cdb86d97611e58e390242ac11001a';
 
 header := TStringList.Create;
@@ -187,7 +181,6 @@ begin
 //RavenClient1.setSENTRY_VERSION('7');
 //result_message := RavenClient1.sendMessage(edtMessage.Text);
 
-raise Exception.Create('Error Message');
 
 
 end;
@@ -207,7 +200,7 @@ begin
 try
 result := IdHTTP.Post(AURL,data);
 except on E: Exception do
-LogBox.Lines.Add(E.Message);
+ LogBox.Lines.Add( RavenClient1.sendException(E));
 end;
 end;
 

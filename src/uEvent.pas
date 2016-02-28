@@ -3,7 +3,7 @@ unit uEvent;
 interface
 
 uses System.SysUtils, System.Variants, System.Classes, System.DateUtils,
-  System.Generics.Collections;
+  System.Generics.Collections, TypInfo;
 
 const
   TAGS_LENGTH = 10;
@@ -13,7 +13,7 @@ type
   ELevel = (FATAL, ERROR, WARNING, INFO, DEBUG);
 
 type
-  BaseEvent = class(Exception)
+  BaseEvent = class(TObject)
     event_id: string;
     event_message: string;
     event_timestamp: string;
@@ -23,37 +23,43 @@ type
     event_culprit: string;
     server_name: string;
     release: string;
-    tags: TDictionary<String, String>;  //Not Support
-    extra: TDictionary<String, String>; //Not Support
-    fingerprint: string;//Not Support
+    tags: TDictionary<String, String>; // Not Support
+    extra: TDictionary<String, String>; // Not Support
+    fingerprint: string; // Not Support
   private
     function tagsToJson(tags: TDictionary<string, string>): string;
     function extraToJson(extra: TDictionary<string, string>): string;
   public
     constructor Create(time: TDateTime);
-    procedure setMessage(_message:string);
-    procedure setLevel(_level:ELevel);
-    procedure setLogger(_logger:string);
-    procedure setPlatform(_platform:string);
-    procedure setCulprit(_culprit:string);
-    procedure setServerName(_serverName:string);
-    procedure setRelease(_release:string);
-    function ToString(): string;
+    procedure setMessage(_message: string);
+    procedure setLevel(_level: ELevel);
+    procedure setLogger(_logger: string);
+    procedure setPlatform(_platform: string);
+    procedure setCulprit(_culprit: string);
+    procedure setServerName(_serverName: string);
+    procedure setRelease(_release: string);
+    function ToString(): string; virtual;
   end;
   //
 
 type
   TException = class(BaseEvent)
-
+  FException:Exception;
+  public
+    function ToString(): string;
   end;
 
 type
   TMessage = class(BaseEvent)
+  public
+    function ToString(): string; override;
 
   end;
 
 type
   TQuery = class(BaseEvent)
+  public
+    function ToString(): string; override;
 
   end;
 
@@ -72,86 +78,114 @@ end;
 constructor BaseEvent.Create(time: TDateTime);
 var
   Guid: TGUID;
-  ISO_8601:string;
+  ISO_8601: string;
 begin
   if CreateGuid(Guid) = S_OK then
   begin
     self.event_id := GUID4ToString(Guid);
   end;
-  Self.event_timestamp :=   formatdatetime('yyyy/mm/dd',time)+'T'+formatdatetime('hh:nn:ss',time) ;
+  self.event_timestamp := formatdatetime('yyyy/mm/dd', time) + 'T' +
+    formatdatetime('hh:nn:ss', time);
 end;
-
 
 function BaseEvent.tagsToJson(tags: TDictionary<string, string>): string;
 var
   key, tagsJson: string;
 begin
-tagsJson := 'tags:{';
+  tagsJson := 'tags:{';
   for key in tags.Keys do
   begin
-    tagsJson := tagsJson + key +':"'+tags.Items[key]+'",';
+    tagsJson := tagsJson + key + ':"' + tags.Items[key] + '",';
   end;
-  Result := tagsJson.Remove(tagsJson.Length-1) + '}';
+  Result := tagsJson.Remove(tagsJson.Length - 1) + '}';
 end;
 
 function BaseEvent.extraToJson(extra: TDictionary<string, string>): string;
 var
   key, extraJson: string;
 begin
-extraJson := 'extra:{';
+  extraJson := 'extra:{';
   for key in extra.Keys do
   begin
-    extraJson :=extraJson + key +':"'+tags.Items[key]+'",';
+    extraJson := extraJson + key + ':"' + tags.Items[key] + '",';
   end;
-  Result := extraJson.Remove(extraJson.Length-1) + '}';
+  Result := extraJson.Remove(extraJson.Length - 1) + '}';
 end;
-
 
 procedure BaseEvent.setCulprit(_culprit: string);
 begin
-self.event_culprit := _culprit;
+  self.event_culprit := _culprit;
 end;
 
 procedure BaseEvent.setLevel(_level: ELevel);
 begin
-       self.event_level := _level;
+  self.event_level := _level;
 end;
 
 procedure BaseEvent.setLogger(_logger: string);
 begin
-      Self.event_logger := _logger;
+  self.event_logger := _logger;
 end;
 
 procedure BaseEvent.setMessage(_message: string);
 begin
-self.event_message := _message;
+  self.event_message := _message;
 end;
 
 procedure BaseEvent.setPlatform(_platform: string);
 begin
-self.event_platform := _platform;
+  self.event_platform := _platform;
 end;
 
 procedure BaseEvent.setRelease(_release: string);
 begin
-   self.release := _release;
+  self.release := _release;
 end;
 
 procedure BaseEvent.setServerName(_serverName: string);
 begin
-self.server_name := _serverName;
+  self.server_name := _serverName;
 end;
 
 function BaseEvent.ToString: string;
-var
-  event_json: string;
 begin
-   event_json := '{ "event_id" : "'+ event_id  + '"'
-   + ' ,"culprit" : "'+ event_culprit + '"'
-   + ' ,"timestamp" : "'+ event_timestamp+ '"'
-   + ' ,"message" : "'+ event_message + '"'
-   + '}';
-  Result := event_json;
+  Result := '{ "event_id" : "' + event_id + '"' + ' ,"culprit" : "' +
+    event_culprit + '"' + ' ,"timestamp" : "' + event_timestamp + '"' +
+    ' ,"message" : "' + event_message + '"' + '}';
+end;
+
+{ TException }
+
+function TException.ToString: string;
+begin
+  Result := '{ "event_id" : "' + event_id + '"'
+  + ' ,"culprit" : "' + event_culprit + '"'
+  + ' ,"timestamp" : "' + event_timestamp + '"'
+  + ' ,"message" : "' + event_message + '"'
+  + ',"level" : "' +GetEnumName(typeInfo(ELevel), Ord(event_level))+'"'
+  + ',"exception": [{' + '"type":' + self.FException.ClassType.ClassName+',' + ',"value": "' +
+    self.FException.Message + '",' + ',"module": "' + self.FException.UnitName + '"' + '}]' + '}';
+
+end;
+
+{ TQuery }
+
+function TQuery.ToString: string;
+begin
+
+  Result := '{ "event_id" : "' + event_id + '"' + ' ,"culprit" : "' +
+    event_culprit + '"' + ' ,"timestamp" : "' + event_timestamp + '"' +
+    ' ,"message" : "' + event_message + '"' + '}';
+
+end;
+
+{ TMessage }
+
+function TMessage.ToString: string;
+begin
+  Result := '{ "event_id" : "' + event_id + '"' + ' ,"culprit" : "' +
+    event_culprit + '"' + ' ,"timestamp" : "' + event_timestamp + '"' +
+    ' ,"message" : "' + event_message + '"' + '}';
 end;
 
 end.

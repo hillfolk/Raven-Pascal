@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.778,\\Mac\Home\Documents\Git\Raven\Raven.dproj=\\Mac\Home\Documents\Embarcadero\Studio\Projects\Raven.dproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.903,=\\Mac\Home\Documents\Git\Raven\src\uEvent.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.166,=\\Mac\Home\Documents\Git\Raven\src\uRavenClient.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.768,\\Mac\Home\Documents\Embarcadero\Studio\Projects\Raven.dproj=\\Mac\Home\Documents\Embarcadero\Studio\Projects\Package1.dproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.625,=rtl.dcp</Transaction>
     <Transaction>1899-12-30 00:00:00.000.131,=\\Mac\Home\Documents\Git\Raven\src\uRaven.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.903,=\\Mac\Home\Documents\Git\Raven\src\uEvent.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.768,\\Mac\Home\Documents\Embarcadero\Studio\Projects\Package1.dproj=\\Mac\Home\Documents\Embarcadero\Studio\Projects\Raven.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.778,\\Mac\Home\Documents\Embarcadero\Studio\Projects\Raven.dproj=\\Mac\Home\Documents\Git\Raven\Raven.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.625,=rtl.dcp</Transaction>
   </Transactions>
 </BorlandProject>

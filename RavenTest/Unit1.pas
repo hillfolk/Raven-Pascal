@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, IdBaseComponent,
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP,uRavenClient, Vcl.ExtCtrls,
   IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL,IdHMACSHA1,IdHashMessageDigest,
-  Vcl.AppEvnts;
+  Vcl.AppEvnts, IdIntercept, IdLogBase, IdLogEvent, IdGlobal;
   const
   hmPOST = 0;
   hmGET = 1;
@@ -49,6 +49,7 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
+    procedure RavenClient1Send(Sender: TObject; ALog: string);
   private
     { Private declarations }
     function Post(AURL:string;data:TStringStream):string;
@@ -131,7 +132,6 @@ input_string := '{ "event_id" : "'+ edtEvent_Id.Text  + '",'
                +'"module" : "'+ edtModule.Text +'"}]}';
 
 input_stream := TStringStream.Create(input_string);
-LogBox.Lines.Add(input_string);
 
 temp_string :=  Self.Post(url,input_stream);
 end;
@@ -140,7 +140,7 @@ if rgHttpMethod.ItemIndex = hmGET then
 begin
   temp_string:=  Self.Get(url);
 end;
-LogBox.Lines.Add(temp_string);
+
 end;
 
 function GUID4ToString(const Guid: TGUID): string;
@@ -190,7 +190,7 @@ begin
 try
 result := IdHTTP.Get(AURL);
 except on E: Exception do
-LogBox.Lines.Add(E.Message);
+
 end;
 
 end;
@@ -202,6 +202,11 @@ result := IdHTTP.Post(AURL,data);
 except on E: Exception do
  LogBox.Lines.Add( RavenClient1.sendException(E));
 end;
+end;
+
+procedure TForm1.RavenClient1Send(Sender: TObject; ALog: string);
+begin
+LogBox.Lines.Add('Message:'+ALog);
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

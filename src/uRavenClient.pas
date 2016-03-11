@@ -8,9 +8,12 @@ uses System.SysUtils, System.Variants, System.Classes, System.DateUtils,
   uRavenConnection, uEvent;
 
 type
-
+  TOnSend = procedure(Sender : TObject; ALog:String) of object;
   TRavenClient = class(TComponent)
     FRavenConnection: TRavenConnection;
+    private
+    FOnSend:TOnSend;
+    procedure DoSend(ALog:string);
     public
     FPROTOCOL:string;
     FDSN: string;
@@ -42,6 +45,7 @@ type
     property PROJECT_ID: integer read FPROJECT_ID write setPROJECT_ID;
     property PUBLIC_KEY: string read FPUBLIC_KEY write setPUBLIC_KEY;
     property SECRET_KEY: string read FSECRET_KEY write setSECRET_KEY;
+    property OnSend:TOnSend read FOnSend write FOnSend;
   end;
 
   procedure Register;
@@ -68,12 +72,19 @@ begin
   inherited;
 end;
 
+procedure TRavenClient.DoSend(ALog:string);
+begin
+   if Assigned(FOnSend) then
+    FOnSend(self,ALog);
+end;
+
 function TRavenClient.sendEvent(event: BaseEvent):string;
 begin
   FRavenConnection.setPublicKey(FPUBLIC_KEY);
   FRavenConnection.setSecretKey(FSECRET_KEY);
   FRavenConnection.setProjectId( IntToStr(FPROJECT_ID));
   FRavenConnection.setDsn(self.FDSN);
+  DoSend(event.ToString);
   Result := FRavenConnection.send(event);
 end;
 
@@ -90,7 +101,8 @@ begin
   FRavenConnection.setSecretKey(FSECRET_KEY);
   FRavenConnection.setProjectId( IntToStr(FPROJECT_ID));
   FRavenConnection.setDsn(self.FDSN);
- Result :=  FRavenConnection.send(event);
+  DoSend(event.ToString);
+  Result :=  FRavenConnection.send(event);
 
 end;
 
@@ -99,7 +111,7 @@ var
 event:BaseEvent;
 begin
   try
-   FRavenConnection.setPublicKey(FPUBLIC_KEY);
+  FRavenConnection.setPublicKey(FPUBLIC_KEY);
   FRavenConnection.setSecretKey(FSECRET_KEY);
   FRavenConnection.setProjectId( IntToStr(FPROJECT_ID));
   FRavenConnection.setDsn(self.FDSN);
@@ -107,12 +119,11 @@ begin
   event.event_message := msg;
   event.event_level := INFO;
   event.event_culprit := 'raven-delphi';
-   Result := FRavenConnection.send(event);
-
+  DoSend(event.ToString);
+  Result := FRavenConnection.send(event);
   except on E: Exception do
 
   end;
-
 
 end;
 

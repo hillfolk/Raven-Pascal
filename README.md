@@ -12,11 +12,18 @@ Raven-Delphi는 컴포넌트는 Sentry([www.getsentry.com](www.getsentry.com)) �
 
 
 ### Setup ###
-
+Sentry([www.getsentry.com](www.getsentry.com)) 사이트에서 발급되는 (Project ID,Public_key, Secret_key) 를 컴포넌트 프로퍼티에 입력해주시면 됩니다. 
 <pre>
 {PROTOCOL}://{PUBLIC_KEY}:{SECRET_KEY}@{HOST}/{PATH}{PROJECT_ID}
-</pre>
 
+
+RavenClient1.setHOST({HOST});
+RavenClient1.setPORT({POROT});
+RavenClient1.setPUBLIC_KEY({PUBLIC_KEY});
+RavenClient1.setSECRET_KEY({SECRET_KEY});
+RavenClient1.setPROJECT_ID({PROJECT_ID});
+RavenClient1.setSENTRY_VERSION('7');
+</pre>
 
 ### 에러 전송 ###
 <pre>

@@ -7,7 +7,7 @@ System.SysUtils, System.Variants, System.Classes ,System.DateUtils, IdBaseCompon
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP,uEvent;
 
 const
-SENTRY_CLIENT = 'raven-delphi/1.0';
+SENTRY_CLIENT = 'raven-delphi/2.0';
 USER_AGENT = 'User-Agent';
 SENTRY_AUTH = 'X-Sentry-Auth';
 DEFAULT_TIMEOUT = 5000;

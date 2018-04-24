@@ -252,7 +252,7 @@ object Form1: TForm1
     HOST = 'app.getsentry.com'
     PORT = 80
     SENTRY_VERSION = '7'
-    PROJECT_ID = 67942
+    PROJECT_ID = 1193490
     PUBLIC_KEY = 'f273091f96ef44bd9e5366f0fa935e28'
     SECRET_KEY = '236c3cab7336475c895abaa9b26af612'
     OnSend = RavenClient1Send

@@ -2,58 +2,58 @@ unit uRavenClient;
 
 interface
 
-
 uses System.SysUtils, System.Variants, System.Classes, System.DateUtils,
   System.RegularExpressions,
   uRavenConnection, uEvent;
 
 type
-  TOnSend = procedure(Sender : TObject; ALog:String) of object;
+  TOnSend = procedure(Sender: TObject; ALog: String) of object;
+
   TRavenClient = class(TComponent)
     FRavenConnection: TRavenConnection;
-    private
-    FOnSend:TOnSend;
-    procedure DoSend(ALog:string);
-    public
-    FPROTOCOL:string;
+  private
+    FOnSend: TOnSend;
+    procedure DoSend(ALog: string);
+  public
+    FPROTOCOL: string;
     FDSN: string;
     FHOST: string;
     FPORT: integer;
     FPUBLIC_KEY: string;
     FSECRET_KEY: string;
     FPROJECT_ID: integer;
-    FSENTRY_VERSION:string;
-    procedure setPROTOCOL(_protocol:string);
+    FSENTRY_VERSION: string;
+    procedure setPROTOCOL(_protocol: string);
     procedure setDSN;
     procedure setHOST(_host: string);
     procedure setPORT(_port: integer);
-    procedure setSENTRY_VERSION(_version:string);
+    procedure setSENTRY_VERSION(_version: string);
     procedure setPUBLIC_KEY(_public_key: string);
     procedure setSECRET_KEY(_secret_key: string);
     procedure setPROJECT_ID(_project_id: integer);
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    function sendEvent(event: BaseEvent):string;
-    function sendMessage(msg: string):string;
-    function sendException(exception: Exception):string;
-    published
-    property PROTOCOL:string read FPROTOCOL write setPROTOCOL ;
+    procedure sendEvent(event: BaseEvent);
+    function sendMessage(msg: string): string;
+    function sendException(exception: exception): string;
+  published
+    property PROTOCOL: string read FPROTOCOL write setPROTOCOL;
     property DSN: string read FDSN;
     property HOST: string read FHOST write setHOST;
     property PORT: integer read FPORT write setPORT default 9000;
-    property SENTRY_VERSION:string read FSENTRY_VERSION write setSENTRY_VERSION;
+    property SENTRY_VERSION: string read FSENTRY_VERSION
+      write setSENTRY_VERSION;
     property PROJECT_ID: integer read FPROJECT_ID write setPROJECT_ID;
     property PUBLIC_KEY: string read FPUBLIC_KEY write setPUBLIC_KEY;
     property SECRET_KEY: string read FSECRET_KEY write setSECRET_KEY;
-    property OnSend:TOnSend read FOnSend write FOnSend;
+    property OnSend: TOnSend read FOnSend write FOnSend;
   end;
 
-  procedure Register;
+procedure Register;
 
 implementation
 
 { TRaven }
-
 
 procedure Register;
 begin
@@ -72,25 +72,25 @@ begin
   inherited;
 end;
 
-procedure TRavenClient.DoSend(ALog:string);
+procedure TRavenClient.DoSend(ALog: string);
 begin
-   if Assigned(FOnSend) then
-    FOnSend(self,ALog);
+  if Assigned(FOnSend) then
+    FOnSend(self, ALog);
 end;
 
-function TRavenClient.sendEvent(event: BaseEvent):string;
+procedure TRavenClient.sendEvent(event: BaseEvent);
 begin
   FRavenConnection.setPublicKey(FPUBLIC_KEY);
   FRavenConnection.setSecretKey(FSECRET_KEY);
-  FRavenConnection.setProjectId( IntToStr(FPROJECT_ID));
-  FRavenConnection.setDsn(self.FDSN);
+  FRavenConnection.setProjectId(IntToStr(FPROJECT_ID));
+  FRavenConnection.setDSN(self.FDSN);
   DoSend(event.ToString);
-  Result := FRavenConnection.send(event);
+  FRavenConnection.send(event);
 end;
 
-function TRavenClient.sendException(exception: Exception):string;
+function TRavenClient.sendException(exception: exception): string;
 var
-event:TException;
+  event: TException;
 begin
   event := TException.Create(Now);
   event.FException := exception;
@@ -99,29 +99,30 @@ begin
   event.event_culprit := exception.ClassName;
   FRavenConnection.setPublicKey(FPUBLIC_KEY);
   FRavenConnection.setSecretKey(FSECRET_KEY);
-  FRavenConnection.setProjectId( IntToStr(FPROJECT_ID));
-  FRavenConnection.setDsn(self.FDSN);
+  FRavenConnection.setProjectId(IntToStr(FPROJECT_ID));
+  FRavenConnection.setDSN(self.FDSN);
   DoSend(event.ToString);
-  Result :=  FRavenConnection.send(event);
+  FRavenConnection.send(event);
 
 end;
 
-function TRavenClient.sendMessage(msg: string):string;
+function TRavenClient.sendMessage(msg: string): string;
 var
-event:BaseEvent;
+  event: BaseEvent;
 begin
   try
-  FRavenConnection.setPublicKey(FPUBLIC_KEY);
-  FRavenConnection.setSecretKey(FSECRET_KEY);
-  FRavenConnection.setProjectId( IntToStr(FPROJECT_ID));
-  FRavenConnection.setDsn(self.FDSN);
-  event := BaseEvent.Create(Now);
-  event.event_message := msg;
-  event.event_level := INFO;
-  event.event_culprit := 'raven-delphi';
-  DoSend(event.ToString);
-  Result := FRavenConnection.send(event);
-  except on E: Exception do
+    FRavenConnection.setPublicKey(FPUBLIC_KEY);
+    FRavenConnection.setSecretKey(FSECRET_KEY);
+    FRavenConnection.setProjectId(IntToStr(FPROJECT_ID));
+    FRavenConnection.setDSN(self.FDSN);
+    event := BaseEvent.Create(Now);
+    event.event_message := msg;
+    event.event_level := INFO;
+    event.event_culprit := 'raven-delphi';
+    DoSend(event.ToString);
+    FRavenConnection.send(event);
+  except
+    on E: exception do
 
   end;
 
@@ -129,9 +130,9 @@ end;
 
 procedure TRavenClient.setDSN;
 begin
-  self.FDSN := FPROTOCOL+'://' + FPUBLIC_KEY + ':' + FSECRET_KEY + '@' + FHOST + ':' +
+  self.FDSN := FPROTOCOL + '://' + FPUBLIC_KEY + '@' + FHOST + ':' +
     IntToStr(FPORT) + '/api/' + IntToStr(FPROJECT_ID) + '/store/';
-    FRavenConnection.setDsn(Self.FDSN);
+  FRavenConnection.setDSN(self.FDSN);
 end;
 
 procedure TRavenClient.setHOST(_host: string);
@@ -154,8 +155,8 @@ end;
 
 procedure TRavenClient.setPROTOCOL(_protocol: string);
 begin
-FPROTOCOL := _protocol;
-setDSN;
+  FPROTOCOL := _protocol;
+  setDSN;
 end;
 
 procedure TRavenClient.setPUBLIC_KEY(_public_key: string);
@@ -172,8 +173,8 @@ end;
 
 procedure TRavenClient.setSENTRY_VERSION(_version: string);
 begin
-Self.FSENTRY_VERSION := _version;
-FRavenConnection.setVersion(Self.FSENTRY_VERSION);
+  self.FSENTRY_VERSION := _version;
+  FRavenConnection.setVersion(self.FSENTRY_VERSION);
 
 end;
 

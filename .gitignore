@@ -8,3 +8,5 @@
 unittest/*
 Win32/*
 *.*~
+*.pas
+*.ini

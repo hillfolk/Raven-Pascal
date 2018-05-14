@@ -8,7 +8,7 @@ uses
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, uEvent, System.Threading;
 
 const
-  SENTRY_CLIENT = 'raven-delphi/2.0';
+  SENTRY_CLIENT = 'raven-pascal/3.0';
   USER_AGENT = 'User-Agent';
   SENTRY_AUTH = 'X-Sentry-Auth';
   DEFAULT_TIMEOUT = 5000;
@@ -36,7 +36,7 @@ type
     property PublicKey: string read FPublicKey write setPublicKey;
     property SecretKey: string read FSecretKey write setSecretKey;
     property ProjectID: string read FProjecID write setProjectId;
-    function send(_event: BaseEvent): string;
+    procedure send(_event: BaseEvent);
     function test(): string;
   end;
 
@@ -68,7 +68,7 @@ var
   send_stream: TStringStream;
   LTask: ITask;
 begin
-  LTask = TTask.Create(
+  LTask := TTask.Create(
     procedure()
     begin
       setHeader;

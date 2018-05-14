@@ -256,8 +256,8 @@ object Form1: TForm1
     PUBLIC_KEY = 'f273091f96ef44bd9e5366f0fa935e28'
     SECRET_KEY = '236c3cab7336475c895abaa9b26af612'
     OnSend = RavenClient1Send
-    Left = 560
-    Top = 263
+    Left = 552
+    Top = 223
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception

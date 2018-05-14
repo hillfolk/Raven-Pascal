@@ -49,6 +49,10 @@ type
     property OnSend: TOnSend read FOnSend write FOnSend;
   end;
 
+const
+  SENTRY_VERSION_7_FORMAT_STRING = '';
+  SENTRY_VERSION_8_FORMAT_STRING = '';
+
 procedure Register;
 
 implementation

@@ -6,13 +6,17 @@ uses
   System.SysUtils, System.Variants, System.Classes, System.DateUtils,
   IdBaseComponent, Generics.Collections, Generics.Defaults,
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, uEvent, System.Threading;
-         { TODO : 커넥션과 Client 를 분리 한다. }
+
+{ TODO : 커넥션과 Client 를 분리 한다. }
 const
-  SENTRY_CLIENT = 'raven-pascal/3.0';
+  SENTRY_CLIENT = 'raven-pascal/2.0';
   USER_AGENT = 'User-Agent';
   SENTRY_AUTH = 'X-Sentry-Auth';
   DEFAULT_TIMEOUT = 5000;
 
+const
+  SENTRY_VERSION_7_FORMAT_STRING = '%s://%s:%s@%s/%s%d';
+  SENTRY_VERSION_8_FORMAT_STRING = '%s://%s@%s/%s%d';
 
 type
   TRavenConnection = class(TComponent)
@@ -25,25 +29,35 @@ type
     FProjecID: String;
   private
     procedure setHeader();
+    function buildDsn():string;
   public
     procedure setVersion(_version: string);
     procedure setDsn(_dsn: string);
     procedure setPublicKey(_public_key: string);
     procedure setSecretKey(_secret_key: string);
     procedure setProjectId(_project_id: string);
+    procedure send(_event: BaseEvent);
+    function test(): string;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+  published
     property DNS: string read FDsn write setDsn;
     property PublicKey: string read FPublicKey write setPublicKey;
     property SecretKey: string read FSecretKey write setSecretKey;
     property ProjectID: string read FProjecID write setProjectId;
-    procedure send(_event: BaseEvent);
-    function test(): string;
+
   end;
+
+procedure Register;
 
 implementation
 
-{ TRavenClient }
+{ TRavenConnection }
+
+procedure Register;
+begin
+  RegisterComponents('Raven', [TRavenConnection]);
+end;
 
 constructor TRavenConnection.Create(AOwner: TComponent);
 begin
@@ -54,7 +68,6 @@ begin
     'application/json';
   FIndyClient.Request.CustomHeaders.Values['Content-Type'] :=
     'application/octet-stream';
-
 end;
 
 destructor TRavenConnection.Destroy;
@@ -107,6 +120,7 @@ end;
 procedure TRavenConnection.setPublicKey(_public_key: string);
 begin
   self.FPublicKey := _public_key;
+
 end;
 
 procedure TRavenConnection.setSecretKey(_secret_key: string);

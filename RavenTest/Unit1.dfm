@@ -251,9 +251,12 @@ object Form1: TForm1
     Top = 215
   end
   object RavenClient1: TRavenClient
-    PORT = 0
-    PROJECT_ID = 0
+    RavenConnection = RavenConnection1
     Left = 384
     Top = 199
+  end
+  object RavenConnection1: TRavenConnection
+    Left = 416
+    Top = 191
   end
 end

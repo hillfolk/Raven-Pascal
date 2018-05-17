@@ -9,7 +9,8 @@ uses
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, uRavenClient, Vcl.ExtCtrls,
   IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL,
   IdHMACSHA1, IdHashMessageDigest,
-  Vcl.AppEvnts, IdIntercept, IdLogBase, IdLogEvent, IdGlobal, System.threading;
+  Vcl.AppEvnts, IdIntercept, IdLogBase, IdLogEvent, IdGlobal, System.threading,
+  uRavenConnection;
 
 const
   hmPOST = 0;
@@ -47,6 +48,7 @@ type
     Button3: TButton;
     ApplicationEvents1: TApplicationEvents;
     RavenClient1: TRavenClient;
+    RavenConnection1: TRavenConnection;
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Button2Click(Sender: TObject);

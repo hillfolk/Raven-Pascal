@@ -13,3 +13,4 @@ Win32/*
 RavenTest/__recovery/
 *.dproj.local
 *.exe
+*.local

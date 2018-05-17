@@ -56,9 +56,7 @@ object Form1: TForm1
     Width = 474
     Height = 21
     TabOrder = 3
-    Text = 
-      'http://2287716fddd94b16b5cf19c49b05fb35:5a52c3092b4742ce9532f32b' +
-      'fad285dc@sentry.hillfolk.org:32779/api/2/store/'
+    Text = 'https://49fa4b7c63ae4b31b9fff984318dde19@sentry.io/1206384'
   end
   object parmeterGroup: TGroupBox
     Left = 8
@@ -215,7 +213,7 @@ object Form1: TForm1
   end
   object Button3: TButton
     Left = 520
-    Top = 384
+    Top = 375
     Width = 201
     Height = 49
     Caption = 'Exception'
@@ -247,21 +245,15 @@ object Form1: TForm1
     Left = 616
     Top = 255
   end
-  object RavenClient1: TRavenClient
-    PROTOCOL = 'http'
-    HOST = 'app.getsentry.com'
-    PORT = 80
-    SENTRY_VERSION = '7'
-    PROJECT_ID = 1193490
-    PUBLIC_KEY = 'f273091f96ef44bd9e5366f0fa935e28'
-    SECRET_KEY = '236c3cab7336475c895abaa9b26af612'
-    OnSend = RavenClient1Send
-    Left = 552
-    Top = 223
-  end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception
     Left = 672
     Top = 215
+  end
+  object RavenClient1: TRavenClient
+    PORT = 0
+    PROJECT_ID = 0
+    Left = 384
+    Top = 199
   end
 end

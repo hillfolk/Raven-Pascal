@@ -6,6 +6,7 @@ uses System.SysUtils, System.Variants, System.Classes, System.DateUtils,
   System.RegularExpressions,
   uRavenConnection, uEvent;
 
+{ TODO : DSN 을 Connect 에서 지정하게 하도록 변경 }
 type
   TOnSend = procedure(Sender: TObject; ALog: String) of object;
 
@@ -22,12 +23,12 @@ type
     FPUBLIC_KEY: string;
     FSECRET_KEY: string;
     FPROJECT_ID: integer;
-    FSENTRY_VERSION: string;
+    FSENTRY_VERSION: integer;
     procedure setPROTOCOL(_protocol: string);
     procedure setDSN;
     procedure setHOST(_host: string);
     procedure setPORT(_port: integer);
-    procedure setSENTRY_VERSION(_version: string);
+    procedure setSENTRY_VERSION(_version: integer);
     procedure setPUBLIC_KEY(_public_key: string);
     procedure setSECRET_KEY(_secret_key: string);
     procedure setPROJECT_ID(_project_id: integer);
@@ -41,8 +42,8 @@ type
     property DSN: string read FDSN;
     property HOST: string read FHOST write setHOST;
     property PORT: integer read FPORT write setPORT default 9000;
-    property SENTRY_VERSION: string read FSENTRY_VERSION
-      write setSENTRY_VERSION;
+    property SENTRY_VERSION: integer read FSENTRY_VERSION
+      write setSENTRY_VERSION default 8;
     property PROJECT_ID: integer read FPROJECT_ID write setPROJECT_ID;
     property PUBLIC_KEY: string read FPUBLIC_KEY write setPUBLIC_KEY;
     property SECRET_KEY: string read FSECRET_KEY write setSECRET_KEY;
@@ -50,8 +51,8 @@ type
   end;
 
 const
-  SENTRY_VERSION_7_FORMAT_STRING = '';
-  SENTRY_VERSION_8_FORMAT_STRING = '';
+  SENTRY_VERSION_7_FORMAT_STRING = '%s://%s:%s@%s/%s%d';
+  SENTRY_VERSION_8_FORMAT_STRING = '%s://%s@%s/%s%d';
 
 procedure Register;
 
@@ -61,7 +62,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('Raven', [TRavenClient]);
+  RegisterComponents('RavenClient', [TRavenClient]);
 end;
 
 constructor TRavenClient.Create(AOwner: TComponent);
@@ -122,7 +123,7 @@ begin
     event := BaseEvent.Create(Now);
     event.event_message := msg;
     event.event_level := INFO;
-    event.event_culprit := 'raven-delphi';
+    event.event_culprit := 'raven-pascal';
     DoSend(event.ToString);
     FRavenConnection.send(event);
   except
@@ -134,8 +135,20 @@ end;
 
 procedure TRavenClient.setDSN;
 begin
-  self.FDSN := FPROTOCOL + '://' + FPUBLIC_KEY + '@' + FHOST + ':' +
-    IntToStr(FPORT) + '/api/' + IntToStr(FPROJECT_ID) + '/store/';
+  case SENTRY_VERSION of
+    7:
+      begin
+        FDSN := format(SENTRY_VERSION_7_FORMAT_STRING, [])
+      end;
+    8:
+      begin
+        FDSN := format(SENTRY_VERSION_8_FORMAT_STRING, [])
+      end
+
+  else
+
+  end;
+  // self.FDSN := format(,)
   FRavenConnection.setDSN(self.FDSN);
 end;
 
@@ -175,7 +188,7 @@ begin
   setDSN;
 end;
 
-procedure TRavenClient.setSENTRY_VERSION(_version: string);
+procedure TRavenClient.setSENTRY_VERSION(_version: integer);
 begin
   self.FSENTRY_VERSION := _version;
   FRavenConnection.setVersion(self.FSENTRY_VERSION);

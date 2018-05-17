@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.840,\\Mac\Home\Documents\Git\Raven\RavenGroup.groupproj=\\Mac\Home\Documents\Embarcadero\Studio\Projects\ProjectGroup1.groupproj</Transaction>
     <Transaction>1899-12-30 00:00:00.000.669,\\Mac\Home\Documents\Git\Raven\RavenGroup.groupproj=\\Mac\Home\Documents\Git\Raven\RavenGroup.groupproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.840,\\Mac\Home\Documents\Embarcadero\Studio\Projects\ProjectGroup1.groupproj=\\Mac\Home\Documents\Git\Raven\RavenGroup.groupproj</Transaction>
   </Transactions>
 	<Default.Personality>
-		<Projects ActiveProject="C:\Users\pjy14\Documents\Work\Raven-Delphi\RavenTest\RavenTest.dproj"/>
+		<Projects ActiveProject="C:\Users\pjy14\Documents\Work\Raven-Delphi\RavenClient.dproj"/>
 	</Default.Personality>
 </BorlandProject>

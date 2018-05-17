@@ -45,8 +45,8 @@ type
     Button2: TButton;
     Edit1: TEdit;
     Button3: TButton;
-    RavenClient1: TRavenClient;
     ApplicationEvents1: TApplicationEvents;
+    RavenClient1: TRavenClient;
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -178,6 +178,9 @@ begin
   // RavenClient1.setSENTRY_VERSION('7');
   // result_message := RavenClient1.sendMessage(edtMessage.Text);
 
+//https://49fa4b7c63ae4b31b9fff984318dde19:7b3ea2de33544173a2081852df7dd2c4@sentry.io/1206384
+
+  raise Exception.Create('Error Message');
 end;
 
 function TForm1.Get(AURL: string): string;

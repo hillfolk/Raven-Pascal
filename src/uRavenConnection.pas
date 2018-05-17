@@ -6,12 +6,13 @@ uses
   System.SysUtils, System.Variants, System.Classes, System.DateUtils,
   IdBaseComponent, Generics.Collections, Generics.Defaults,
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, uEvent, System.Threading;
-
+         { TODO : 커넥션과 Client 를 분리 한다. }
 const
   SENTRY_CLIENT = 'raven-pascal/3.0';
   USER_AGENT = 'User-Agent';
   SENTRY_AUTH = 'X-Sentry-Auth';
   DEFAULT_TIMEOUT = 5000;
+
 
 type
   TRavenConnection = class(TComponent)

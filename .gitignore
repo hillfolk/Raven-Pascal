@@ -11,3 +11,5 @@ Win32/*
 *.pas
 *.ini
 RavenTest/__recovery/
+*.dproj.local
+*.exe

@@ -66,7 +66,7 @@ end;
 
 procedure TRavenClient.Log(AMessage: string);
 begin
-  Writeln(Format('Exception:Raven-Pascal On %s  ', [AMessage]));
+//  Writeln(Format('Exception:Raven-Pascal On %s  ', [AMessage]));
 end;
 
 procedure TRavenClient.sendEvent(event: BaseEvent);

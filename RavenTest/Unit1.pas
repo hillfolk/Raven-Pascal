@@ -183,7 +183,7 @@ begin
 //result_message := RavenClient1.sendMessage(edtMessage.Text);
 
 //https://fed3868f35fc442f8f7a28f221d37d62:0549c8de569b440bb03d175ef7dcb0eb@sentry.io/1208634
-RavenClient1.sendException(Exception.Create('RavenEvent'));
+ RavenClient1.sendException(Exception.Create('RavenEvent'));
 
 
 end;

@@ -72,7 +72,7 @@ end;
 procedure TRavenConnection.buildDSN;
 begin
   FDsn := Format(SENTRY_VERSION_7_FORMAT_STRING,
-    [FProtocol, FPublicKey, FSecretKey, FHost, FPath, FProjecID]);
+    [FProtocol, FPublicKey, FSecretKey, FHost, FProjecID]);
 end;
 
 constructor TRavenConnection.Create(AOwner: TComponent);
@@ -108,19 +108,12 @@ end;
 procedure TRavenConnection.send(_event: BaseEvent);
 var
   send_stream: TStringStream;
-  LTask: ITask;
+  res: string;
 begin
   buildDSN;
-  LTask := TTask.Create(
-    procedure()
-    begin
-      setHeader;
-      send_stream := TStringStream.Create(_event.ToString);
-      FIndyClient.Post(FDsn, send_stream);
-    end);
-
-  LTask.Start;
-
+  setHeader;
+  send_stream := TStringStream.Create(_event.ToString);
+  res := FIndyClient.Post(FDsn, send_stream);
 end;
 
 procedure TRavenConnection.setDsn(_dsn: string);

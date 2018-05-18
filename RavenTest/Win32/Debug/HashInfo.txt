@@ -1,0 +1,10 @@
+<libeay32.dll>
+MD5          : 661282f1239b30db5e1b73ee49cbff39
+RipeMD160    : 37f998f6ececa3d665dafad379d535b3f4087a3a
+SHA1         : 28e9fd9ac81b28c8b2b85102c16445e731433462
+
+<ssleay32.dll>
+MD5          : b5d035218a5fbbfc3742f0b5b25a20ec
+RipeMD160    : c6dba80c8da4d03e3dfa6d86d73a01f1c72e7f35
+SHA1         : 9359e2e3733522d7e3b89f7d4dae3bcbd5c96d4c
+

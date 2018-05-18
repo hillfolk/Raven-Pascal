@@ -1,0 +1,16 @@
+*.~5~
+*.~4~
+*.~3~
+*.~2~
+*.~1~
+*.dcu
+*.~6~
+unittest/*
+Win32/*
+*.*~
+*.pas
+*.ini
+RavenTest/__recovery/
+*.dproj.local
+*.exe
+*.local

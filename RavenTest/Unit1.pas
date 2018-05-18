@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, IdBaseComponent,
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP,uRavenClient, Vcl.ExtCtrls,
   IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL,IdHMACSHA1,IdHashMessageDigest,
-  Vcl.AppEvnts, IdIntercept, IdLogBase, IdLogEvent, IdGlobal;
+  Vcl.AppEvnts, IdIntercept, IdLogBase, IdLogEvent, IdGlobal, uRavenConnection;
   const
   hmPOST = 0;
   hmGET = 1;
@@ -44,6 +44,7 @@ type
     Button3: TButton;
     RavenClient1: TRavenClient;
     ApplicationEvents1: TApplicationEvents;
+    RavenConnection1: TRavenConnection;
     procedure Button1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -181,6 +182,8 @@ begin
 //RavenClient1.setSENTRY_VERSION('7');
 //result_message := RavenClient1.sendMessage(edtMessage.Text);
 
+//https://fed3868f35fc442f8f7a28f221d37d62:0549c8de569b440bb03d175ef7dcb0eb@sentry.io/1208634
+ RavenClient1.sendException(Exception.Create('RavenEvent'));
 
 
 end;

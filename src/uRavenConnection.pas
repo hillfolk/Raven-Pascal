@@ -16,8 +16,8 @@ const
   DEFAULT_TIMEOUT = 5000;
 
 const
-  SENTRY_VERSION_7_FORMAT_STRING = '%s://%s:%s@%s/api/%s/store';
-  SENTRY_VERSION_8_FORMAT_STRING = '%s://%s@%s/%s%s';
+  SENTRY_VERSION_7_FORMAT_STRING = '%s://%s:%s@%s/api/%s/store/';
+  SENTRY_VERSION_8_FORMAT_STRING = '%s://%s@%s/%s%s/';
 
 type
   TRavenConnection = class(TComponent)

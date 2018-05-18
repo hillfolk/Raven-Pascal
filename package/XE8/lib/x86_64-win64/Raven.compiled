@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CONFIG>
-  <Compiler Value="C:\lazarus\fpc\3.0.4\bin\x86_64-win64\fpc.exe" Date="1280923943"/>
-  <Params Value=" -Mdelphi -Scghi -O1 -g -gl -l -vewnhibq -FuC:\lazarus\packager\units\x86_64-win64 -FuC:\lazarus\components\lazutils\lib\x86_64-win64 -FuC:\lazarus\lcl\units\x86_64-win64 -FuC:\lazarus\lcl\units\x86_64-win64\win32 -FuC:\Users\pjy14\Documents\Work\Raven-Delphi\package\XE8\ -FUC:\Users\pjy14\Documents\Work\Raven-Delphi\package\XE8\lib\x86_64-win64\ -dLCL -dLCLwin32 Raven.pas"/>
-</CONFIG>

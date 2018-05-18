@@ -48,8 +48,6 @@ end;
 
 destructor TRavenClient.Destroy;
 begin
-  if Assigned(FRavenConnection) then
-    FreeAndNil(FRavenConnection);
   inherited;
 end;
 

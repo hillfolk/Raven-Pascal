@@ -79,7 +79,7 @@ constructor TRavenConnection.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FIndyClient := TIdHTTP.Create(self);
-  FIndyClient.IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(FIndyClient);
+  FIndyClient.IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(self);
   FIndyClient.Request.CustomHeaders.Values[USER_AGENT] := SENTRY_CLIENT;
   FIndyClient.Request.CustomHeaders.Values['Content-Encoding'] :=
     'application/json';
@@ -92,7 +92,6 @@ destructor TRavenConnection.Destroy;
 begin
   if Assigned(FIndyClient) then
     FreeAndNil(FIndyClient);
-
   inherited;
 end;
 

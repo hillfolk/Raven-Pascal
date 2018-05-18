@@ -26,7 +26,7 @@ type
     FSentry_version: string;
     FHost: string;
     FDsn: string;
-    FProtocol: string;
+    FProtocol: String;
     FPath: string;
     FPublicKey: String;
     FSecretKey: String;
@@ -34,6 +34,8 @@ type
   private
     procedure setHeader();
     function buildDSN(): string;
+    function getProtocol: string;
+    procedure setProtocol(const Value: string);
   public
     procedure Loaded; override;
     procedure setVersion(_version: string);
@@ -49,7 +51,7 @@ type
     property DNS: string read FDsn;
     property Host: string read FHost write FHost;
     property SentryVersion: string read FSentry_version write FSentry_version;
-    property Protocol: string read FProtocol write FProtocol;
+    property Protocol: string read getProtocol write setProtocol;
     property PublicKey: string read FPublicKey write setPublicKey;
     property SecretKey: string read FSecretKey write setSecretKey;
     property ProjectID: string read FProjecID write setProjectId;
@@ -92,11 +94,14 @@ begin
   inherited;
 end;
 
+function TRavenConnection.getProtocol: string;
+begin
+ Result := FProtocol;
+end;
+
 procedure TRavenConnection.Loaded;
 begin
   inherited;
-
-
 end;
 
 procedure TRavenConnection.send(_event: BaseEvent);
@@ -139,6 +144,11 @@ procedure TRavenConnection.setProjectId(_project_id: string);
 begin
   self.FProjecID := _project_id;
   buildDSN;
+end;
+
+procedure TRavenConnection.setProtocol(const Value: string);
+begin
+ FProtocol := Value;
 end;
 
 procedure TRavenConnection.setPublicKey(_public_key: string);

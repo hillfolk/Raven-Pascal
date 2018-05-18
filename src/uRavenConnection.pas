@@ -33,7 +33,7 @@ type
     FProjecID: String;
   private
     procedure setHeader();
-    function buildDSN(): string;
+    procedure buildDSN();
     function getProtocol: string;
     procedure setProtocol(const Value: string);
   public
@@ -68,9 +68,9 @@ begin
   RegisterComponents('Raven', [TRavenConnection]);
 end;
 
-function TRavenConnection.buildDSN: string;
+procedure TRavenConnection.buildDSN;
 begin
-  Result := Format(SENTRY_VERSION_7_FORMAT_STRING,
+  FDsn := Format(SENTRY_VERSION_7_FORMAT_STRING,
     [FProtocol, FPublicKey, FSecretKey, FHost, FPath, FProjecID]);
 end;
 

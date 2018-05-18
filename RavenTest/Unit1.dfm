@@ -248,20 +248,24 @@ object Form1: TForm1
     Top = 255
   end
   object RavenClient1: TRavenClient
-    PROTOCOL = 'http'
-    HOST = 'app.getsentry.com'
-    PORT = 80
-    SENTRY_VERSION = '7'
-    PROJECT_ID = 67942
-    PUBLIC_KEY = 'f273091f96ef44bd9e5366f0fa935e28'
-    SECRET_KEY = '236c3cab7336475c895abaa9b26af612'
     OnSend = RavenClient1Send
-    Left = 560
-    Top = 263
+    RavenConnection = RavenConnection1
+    Left = 592
+    Top = 207
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception
     Left = 672
     Top = 215
+  end
+  object RavenConnection1: TRavenConnection
+    Host = 'sentry.io'
+    SentryVersion = '7'
+    Protocol = 'https'
+    PublicKey = 'fed3868f35fc442f8f7a28f221d37d62'
+    SecretKey = '0549c8de569b440bb03d175ef7dcb0eb'
+    ProjectID = '1208634'
+    Left = 536
+    Top = 207
   end
 end

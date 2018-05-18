@@ -36,6 +36,7 @@ type
     procedure buildDSN();
     function getProtocol: string;
     procedure setProtocol(const Value: string);
+    procedure setHost(const Value: string);
   public
     procedure Loaded; override;
     procedure setVersion(_version: string);
@@ -49,7 +50,7 @@ type
     destructor Destroy; override;
   published
     property DNS: string read FDsn;
-    property Host: string read FHost write FHost;
+    property Host: string read FHost write setHost;
     property SentryVersion: string read FSentry_version write FSentry_version;
     property Protocol: string read getProtocol write setProtocol;
     property PublicKey: string read FPublicKey write setPublicKey;
@@ -96,7 +97,7 @@ end;
 
 function TRavenConnection.getProtocol: string;
 begin
- Result := FProtocol;
+  Result := FProtocol;
 end;
 
 procedure TRavenConnection.Loaded;
@@ -117,6 +118,8 @@ begin
       send_stream := TStringStream.Create(_event.ToString);
       FIndyClient.Post(FDsn, send_stream);
     end);
+
+  LTask.Start;
 
 end;
 
@@ -140,6 +143,12 @@ begin
   FIndyClient.Request.CustomHeaders.Values[SENTRY_AUTH] := sentry_header;
 end;
 
+procedure TRavenConnection.setHost(const Value: string);
+begin
+  FHost := Value;
+  buildDSN;
+end;
+
 procedure TRavenConnection.setProjectId(_project_id: string);
 begin
   self.FProjecID := _project_id;
@@ -148,7 +157,7 @@ end;
 
 procedure TRavenConnection.setProtocol(const Value: string);
 begin
- FProtocol := Value;
+  FProtocol := Value;
 end;
 
 procedure TRavenConnection.setPublicKey(_public_key: string);

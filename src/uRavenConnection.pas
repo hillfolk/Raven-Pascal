@@ -50,7 +50,6 @@ type
     property Host: string read FHost write FHost;
     property SentryVersion: string read FSentry_version write FSentry_version;
     property Protocol: string read FProtocol write FProtocol;
-    property Path: string read FPath write FPath;
     property PublicKey: string read FPublicKey write setPublicKey;
     property SecretKey: string read FSecretKey write setSecretKey;
     property ProjectID: string read FProjecID write setProjectId;

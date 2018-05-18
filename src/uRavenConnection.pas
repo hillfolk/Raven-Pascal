@@ -90,8 +90,9 @@ end;
 
 destructor TRavenConnection.Destroy;
 begin
-  if FIndyClient <> nil then
+  if Assigned(FIndyClient) then
     FreeAndNil(FIndyClient);
+
   inherited;
 end;
 

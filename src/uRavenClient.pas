@@ -44,12 +44,12 @@ end;
 constructor TRavenClient.Create(AOwner: TComponent);
 begin
   inherited;
-  FRavenConnection := TRavenConnection.Create(self);
 end;
 
 destructor TRavenClient.Destroy;
 begin
-  FreeAndNil(FRavenConnection);
+  if Assigned(FRavenConnection) then
+    FreeAndNil(FRavenConnection);
   inherited;
 end;
 
@@ -61,12 +61,12 @@ end;
 
 function TRavenClient.getConnection: TRavenConnection;
 begin
-   Result := FRavenConnection;
+  Result := FRavenConnection;
 end;
 
 procedure TRavenClient.Log(AMessage: string);
 begin
-//  Writeln(Format('Exception:Raven-Pascal On %s  ', [AMessage]));
+  // Writeln(Format('Exception:Raven-Pascal On %s  ', [AMessage]));
 end;
 
 procedure TRavenClient.sendEvent(event: BaseEvent);

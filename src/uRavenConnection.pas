@@ -27,7 +27,6 @@ type
     FHost: string;
     FDsn: string;
     FProtocol: String;
-    FPath: string;
     FPublicKey: String;
     FSecretKey: String;
     FProjecID: String;
@@ -113,7 +112,11 @@ begin
   buildDSN;
   setHeader;
   send_stream := TStringStream.Create(_event.ToString);
+  try
   res := FIndyClient.Post(FDsn, send_stream);
+  except on E: Exception do
+  end;
+
 end;
 
 procedure TRavenConnection.setDsn(_dsn: string);

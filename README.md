@@ -1,7 +1,7 @@
 ﻿# Raven-Pascal
 The Sentry Client for Object Pascal
 
-Raven-Pascal는 컴포넌트는 Sentry([https://www.sentry.io](www.sentry.io)) 로그 수접 서버의 클라이언트 인터페이스를 파스칼로 구현한 컴포넌트입니다.
+Raven-Pascal는 컴포넌트는 Sentry([https://www.sentry.io](https://www.sentry.io)) 로그 수접 서버의 클라이언트 인터페이스를 파스칼로 구현한 컴포넌트입니다.
 
 
 |Version | Support | 
